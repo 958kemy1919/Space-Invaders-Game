@@ -33,6 +33,7 @@ player.goto(0,-250)
 player.shapesize(0.5,2)
 cannon = Turtle()
 cannon.color("blue")
+
 cannon.shape("circle")
 cannon.penup()
 cannon.goto(0,-235)
