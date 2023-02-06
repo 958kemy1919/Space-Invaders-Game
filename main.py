@@ -10,13 +10,20 @@ screen.tracer(0)
 
 lifes = 3
 score = 0
+try:
+    with open("highest_score.txt",mode="r") as data_file:
+        highest_score = int(data_file.read())
+except FileNotFoundError:
+    with open("highest_score.txt",mode="w") as data_file:
+        data_file.write("0")
+        highest_score = 0
 
 scoreboard = Turtle()
 scoreboard.penup()
 scoreboard.hideturtle()
 scoreboard.color("green")
 scoreboard.goto(-300,-300)
-scoreboard.write(f"Score: {score}   Lifes: {lifes}",True,font=("Arial",20,"bold"))
+scoreboard.write(f"Score: {score}   Highest Score: {highest_score}   Lifes: {lifes}",True,font=("Arial",20,"bold"))
 
 player = Turtle()
 player.shape("square")
@@ -120,21 +127,24 @@ while is_game_on:
     for i in range(0,len(aliens)):
         if aliens[i].distance(rocket) < 12 and aliens[i] not in hitted_aliens:
             score += 1
+            if score > highest_score:
+                with open("highest_score.txt",mode="w") as data_file:
+                    data_file.write(f"{score}")
             aliens[i].hideturtle()
             hitted_aliens.append(aliens[i])
             rocket.goto(player.position())
             scoreboard.clear()
             scoreboard.goto(-300, -300)
-            scoreboard.write(f"Score: {score}   Lifes: {lifes}", True, font=("Arial", 20, "bold"))
+            scoreboard.write(f"Score: {score}   Highest Score: {highest_score}   Lifes: {lifes}", True, font=("Arial", 20, "bold"))
 
-    if alien_rocket.distance(player) < 15:
+    if alien_rocket.distance(player) < 10:
         lifes -= 1
         scoreboard.clear()
         scoreboard.goto(-300, -300)
-        scoreboard.write(f"Score: {score}   Lifes: {lifes}", True, font=("Arial", 20, "bold"))
+        scoreboard.write(f"Score: {score}  Highest Score: {highest_score}   Lifes: {lifes}", True, font=("Arial", 20, "bold"))
         if lifes == 0:
             scoreboard.goto(-300, -300)
-            scoreboard.write(f"Score: {score}   Lifes: {lifes}", True, font=("Arial", 20, "bold"))
+            scoreboard.write(f"Score: {score}  Highest Score: {highest_score}   Lifes: {lifes}", True, font=("Arial", 20, "bold"))
             is_game_on = False
             scoreboard.goto(-150,0)
             scoreboard.write("GAME OVER !!",True, font=("Arial", 40, "bold"))
