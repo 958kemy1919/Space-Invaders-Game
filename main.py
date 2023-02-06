@@ -33,7 +33,6 @@ player.goto(0,-250)
 player.shapesize(0.5,2)
 cannon = Turtle()
 cannon.color("blue")
-
 cannon.shape("circle")
 cannon.penup()
 cannon.goto(0,-235)
@@ -129,8 +128,9 @@ while is_game_on:
         if aliens[i].distance(rocket) < 12 and aliens[i] not in hitted_aliens:
             score += 1
             if score > highest_score:
+                highest_score = score
                 with open("highest_score.txt",mode="w") as data_file:
-                    data_file.write(f"{score}")
+                    data_file.write(f"{highest_score}")
             aliens[i].hideturtle()
             hitted_aliens.append(aliens[i])
             rocket.goto(player.position())
@@ -138,7 +138,7 @@ while is_game_on:
             scoreboard.goto(-300, -300)
             scoreboard.write(f"Score: {score}   Highest Score: {highest_score}   Lifes: {lifes}", True, font=("Arial", 20, "bold"))
 
-    if alien_rocket.distance(player) < 10:
+    if alien_rocket.distance(player) < 12:
         lifes -= 1
         scoreboard.clear()
         scoreboard.goto(-300, -300)
